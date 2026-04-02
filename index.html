@@ -1,655 +1,213 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>五十铃原厂配件 | 中英文出口专版 | 管理后台</title>
-    <meta name="description" content="专业供应五十铃原厂纯正配件，支持全球件号搜索，中英文对照，快速发货。">
-    <meta name="keywords" content="Isuzu parts, 五十铃配件, genuine parts, 4JB1, 4HK1">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * { margin:0; padding:0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f7fc;
-            color: #1a2634;
-            line-height: 1.5;
-            padding-bottom: 80px;
-        }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-        .header {
-            background: linear-gradient(135deg, #0b2b3b 0%, #0a1c26 100%);
-            color: white;
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .logo h1 { font-size: 1.8rem; font-weight: 700; }
-        .logo span { background: #e67e22; padding: 4px 10px; border-radius: 30px; font-size: 0.85rem; margin-left: 10px; }
-        .tagline { font-size: 0.9rem; opacity: 0.85; margin-top: 6px; }
-        .nav-links a { color: #f0f4f8; text-decoration: none; margin-left: 28px; font-weight: 500; transition: 0.2s; }
-        .nav-links a:hover { color: #f39c12; }
-        .hero {
-            background: linear-gradient(105deg, #ffffff 0%, #f0f4fa 100%);
-            padding: 50px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .hero-grid {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 40px;
-            justify-content: space-between;
-        }
-        .hero-text { flex: 1; }
-        .hero-text h2 { font-size: 2.4rem; font-weight: 800; color: #0a2b36; margin-bottom: 20px; }
-        .hero-text p { font-size: 1rem; color: #2c3e44; margin-bottom: 25px; max-width: 550px; }
-        .badge-group { display: flex; gap: 16px; flex-wrap: wrap; }
-        .badge { background: white; padding: 6px 18px; border-radius: 40px; font-weight: 600; border: 1px solid #dce5ef; }
-        .hero-image { flex: 0.7; text-align: center; background: #eef2f7; padding: 20px; border-radius: 40px; }
-        .hero-image i { font-size: 5rem; color: #2c6e9e; }
-        .search-section {
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
-            margin-top: -30px;
-            margin-bottom: 40px;
-            padding: 28px 28px;
-        }
-        .search-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
-            align-items: flex-end;
-        }
-        .search-input-group { flex: 3; }
-        .search-input-group input {
-            width: 100%;
-            padding: 12px 18px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 60px;
-            font-family: monospace;
-        }
-        .btn-primary {
-            background: #e67e22;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 60px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1.5px solid #cbdde9;
-            padding: 10px 22px;
-            border-radius: 40px;
-            cursor: pointer;
-        }
-        .parts-catalog { margin: 40px 0; }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .hot-tags { display: flex; flex-wrap: wrap; gap: 12px; }
-        .hot-tag {
-            background: #ecf3f8;
-            padding: 5px 14px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-        .table-wrapper { overflow-x: auto; background: white; border-radius: 24px; border: 1px solid #eef2f6; }
-        .parts-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .parts-table th { text-align: left; padding: 14px 16px; background: #f8fafd; border-bottom: 1px solid #e2edf2; }
-        .parts-table td { padding: 12px 16px; border-bottom: 1px solid #ecf3f7; }
-        .part-number { font-weight: 700; color: #c2410c; font-family: monospace; }
-        .inquiry-btn {
-            background: none;
-            border: 1px solid #e67e22;
-            padding: 4px 12px;
-            border-radius: 30px;
-            color: #e67e22;
-            cursor: pointer;
-        }
-        /* 管理后台样式 */
-        .admin-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        .admin-toggle {
-            background: #2c3e50;
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: 0.2s;
-        }
-        .admin-toggle:hover { background: #e67e22; transform: scale(1.05); }
-        .admin-drawer {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 420px;
-            max-width: calc(100vw - 40px);
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
-            padding: 20px;
-            display: none;
-            border: 1px solid #e2e8f0;
-            z-index: 1001;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        .admin-drawer.show { display: block; }
-        .admin-drawer h4 { margin-bottom: 15px; border-left: 4px solid #e67e22; padding-left: 12px; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 12px; }
-        .btn-sm { padding: 6px 12px; font-size: 0.8rem; margin-right: 8px; border-radius: 30px; border: none; cursor: pointer; }
-        .btn-warning { background: #f1c40f; color: #2c3e50; }
-        .btn-danger { background: #e74c3c; color: white; }
-        .btn-success { background: #27ae60; color: white; }
-        .btn-secondary { background: #3498db; color: white; }
-        .export-import { margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
-        .footer {
-            background: #0b212b;
-            color: #cddfe6;
-            padding: 30px 0;
-            margin-top: 40px;
-        }
-        @media (max-width: 700px) {
-            .hero-text h2 { font-size: 1.8rem; }
-            .admin-drawer { width: 300px; }
-        }
-        /* 浮动WhatsApp按钮 */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background: #25d366;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-            z-index: 99;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-        .whatsapp-float a {
-            color: white;
-            font-size: 32px;
-        }
-        .whatsapp-float:hover { transform: scale(1.08); }
-        /* 密码模态框 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 32px;
-            width: 300px;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISUZU Parts Supplier</title>
+
+<style>
+body{font-family:Arial;margin:0;background:#f5f5f5}
+.header{background:#D50000;color:#fff;padding:15px 30px;display:flex;justify-content:space-between}
+.header a{color:#fff;margin-left:20px;text-decoration:none}
+
+.hero{background:#1a1a1a;color:#fff;padding:60px 20px;text-align:center}
+.hero h1{font-size:36px;margin-bottom:10px}
+.hero p{opacity:.8;margin-bottom:20px}
+
+.search{display:flex;justify-content:center;gap:10px}
+.search input{padding:12px;width:300px;border-radius:30px;border:none}
+.search button{background:#25D366;border:none;color:#fff;padding:12px 20px;border-radius:30px;cursor:pointer}
+
+.section{padding:40px 20px;max-width:1200px;margin:auto}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+
+.card{background:#fff;padding:20px;border-radius:12px}
+
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px;border-bottom:1px solid #eee}
+
+.btn{border:1px solid #D50000;color:#D50000;padding:5px 10px;border-radius:20px;cursor:pointer}
+.btn:hover{background:#D50000;color:#fff}
+
+.sidebar{display:flex;flex-direction:column;gap:20px}
+.whatsapp{background:#25D366;color:#fff;padding:20px;text-align:center;border-radius:12px}
+
+.footer{background:#111;color:#aaa;text-align:center;padding:20px;margin-top:40px}
+
+.pagination{display:flex;justify-content:center;margin-top:20px;gap:10px}
+.page-btn{padding:8px 12px;border:1px solid #ccc;border-radius:6px;cursor:pointer;background:#fff}
+
+/* 悬浮WhatsApp */
+.wa-float{
+ position:fixed;
+ bottom:20px;
+ right:20px;
+ background:#25D366;
+ color:#fff;
+ width:60px;
+ height:60px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:28px;
+ text-decoration:none;
+}
+</style>
 </head>
+
 <body>
 
-<!-- 浮动WhatsApp按钮 -->
-<div class="whatsapp-float">
-    <a href="https://wa.me/8615502421365?text=Hello%2C%20I%20need%20Isuzu%20genuine%20parts" target="_blank"><i class="fab fa-whatsapp"></i></a>
-</div>
-
 <div class="header">
-    <div class="container header-inner">
-        <div class="logo">
-            <h1>ISUZU GENUINE <span>原厂纯正</span></h1>
-            <div class="tagline">Genuine Isuzu Parts | 中英文出口专版</div>
-        </div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#catalog">Parts Catalog</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </div>
+<div><strong>ISUZU PARTS</strong></div>
+<div>
+<a href="#">Home</a>
+<a href="#">Products</a>
+<a href="#">Contact</a>
+</div>
 </div>
 
-<section class="hero">
-    <div class="container hero-grid">
-        <div class="hero-text">
-            <h2>Genuine Isuzu Parts<br>五十铃原厂配件</h2>
-            <p>Search by part number | 支持件号搜索，中英文对照，全球发货。100% OEM quality.</p>
-            <div class="badge-group">
-                <span class="badge"><i class="fas fa-check-circle"></i> Genuine</span>
-                <span class="badge"><i class="fas fa-shipping-fast"></i> Worldwide Shipping</span>
-                <span class="badge"><i class="fas fa-language"></i> Bilingual Support</span>
-            </div>
-        </div>
-        <div class="hero-image">
-            <i class="fas fa-oil-can"></i>
-            <i class="fas fa-truck"></i>
-            <p style="margin-top: 10px;">Isuzu D-MAX / NPR / 4JJ1</p>
-        </div>
-    </div>
-</section>
-
-<div class="container">
-    <div class="search-section">
-        <div class="search-title"><i class="fas fa-search"></i> Search by Part Number / 按零件号搜索</div>
-        <div class="search-box">
-            <div class="search-input-group">
-                <input type="text" id="partSearchInput" placeholder="e.g., 8-97234-350-0, 8-97946-130-1" autocomplete="off">
-            </div>
-            <button class="btn-primary" id="searchBtn"><i class="fas fa-key"></i> Search</button>
-            <button class="btn-outline" id="resetBtn">Show All</button>
-        </div>
-        <div style="margin-top: 12px; font-size: 0.75rem; color: #5f7f8f;"><i class="fas fa-chart-line"></i> Hot Searches: 4JB1 Piston Rings, 8-97349-476-0, 8-98211-687-0</div>
-    </div>
-
-    <div class="parts-catalog" id="catalog">
-        <div class="section-header">
-            <h3><i class="fas fa-list-ul"></i> Parts Database / 配件数据库</h3>
-            <div class="hot-tags" id="hotTagsContainer"></div>
-        </div>
-        <div class="table-wrapper">
-            <table class="parts-table">
-                <thead>
-                    <tr><th>Part Number<br>零件号</th><th>English Name<br>英文名称</th><th>中文名称</th><th>Application</th><th>Action</th></tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
-    </div>
+<div class="hero">
+<h1>ISUZU TRUCK PARTS SUPPLIER</h1>
+<p>OEM / Genuine / Fast Quotation</p>
+<div class="search">
+<input id="searchInput" placeholder="Enter Part Number">
+<button onclick="searchParts()">Search</button>
+</div>
 </div>
 
-<!-- 管理后台抽屉（默认隐藏，需密码） -->
-<div class="admin-panel">
-    <button class="admin-toggle" id="adminToggleBtn"><i class="fas fa-cog"></i></button>
-    <div class="admin-drawer" id="adminDrawer">
-        <h4><i class="fas fa-edit"></i> 管理后台 | Admin Panel</h4>
-        <div id="editForm" style="display: none;"></div>
-        <div id="addForm">
-            <div class="form-group"><label>Part Number *</label><input type="text" id="newPartNo" placeholder="例: 8-97234-350-0"></div>
-            <div class="form-group"><label>English Name *</label><input type="text" id="newEnName" placeholder="Power Steering Oil Tank"></div>
-            <div class="form-group"><label>中文名称 *</label><input type="text" id="newCnName" placeholder="动力转向油罐"></div>
-            <div class="form-group"><label>Application / 适用车型</label><input type="text" id="newModel" placeholder="D-MAX / 4JK1"></div>
-            <button class="btn-sm btn-success" id="addPartBtn"><i class="fas fa-plus"></i> 添加零件</button>
-            <button class="btn-sm btn-warning" id="cancelEditBtn" style="display:none;">取消编辑</button>
-        </div>
-        <div class="export-import" style="margin-top:15px; border-top:1px solid #eef2f6; padding-top:12px;">
-            <button class="btn-sm btn-secondary" id="exportCsvBtn"><i class="fas fa-file-csv"></i> 导出CSV</button>
-            <button class="btn-sm btn-secondary" id="exportJsonBtn"><i class="fas fa-download"></i> 导出JSON</button>
-            <label class="btn-sm" style="background:#2c3e50; color:white; cursor:pointer;"><i class="fas fa-upload"></i> 导入CSV/JSON<input type="file" id="importFileInput" accept=".csv,.json" style="display:none;"></label>
-            <button class="btn-sm btn-danger" id="resetDefaultBtn">恢复默认数据</button>
-            <p style="font-size:0.7rem; margin-top:8px;">* CSV格式要求：第一行为列名 partNo,enName,cnName,model (可选)</p>
-            <button class="btn-sm" id="downloadTemplateBtn"><i class="fas fa-download"></i> 下载CSV模板</button>
-        </div>
-    </div>
+<div class="section grid">
+
+<div class="card">
+<h3>Parts Database</h3>
+
+<table class="table">
+<thead>
+<tr>
+<th>Part No</th>
+<th>Name</th>
+<th>Weight(KG)</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+
+<div class="pagination">
+<span id="pageInfo"></span>
+<button class="page-btn" onclick="nextPage()">Next</button>
 </div>
 
-<footer class="footer" id="contact">
-    <div class="container footer-content" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-        <div><i class="fas fa-envelope"></i> sales@isuzugenuineparts.com<br><i class="fab fa-whatsapp"></i> +86 15502421365<br><i class="fas fa-phone-alt"></i> +86 15502421365</div>
-        <div><strong>Genuine Parts Warranty</strong><br>✔ 12 Months Warranty<br>✔ Fast Shipping<br>✔ Technical Support</div>
-        <div>© 2025 ISUZU GENUINE PARTS | 中英文出口专版</div>
-    </div>
-</footer>
-
-<!-- 密码模态框 -->
-<div id="passwordModal" class="modal">
-    <div class="modal-content">
-        <i class="fas fa-lock" style="font-size: 40px; color:#e67e22;"></i>
-        <h3>管理后台验证</h3>
-        <p>请输入密码以访问后台</p>
-        <input type="password" id="adminPassword" style="width:100%; padding:8px; margin:12px 0; border-radius:30px; border:1px solid #ccc;">
-        <button id="submitPasswordBtn" class="btn-primary">确认</button>
-        <p style="margin-top:10px; font-size:12px;">提示：密码为 885336</p>
-    </div>
 </div>
+
+<div class="sidebar">
+<div class="whatsapp">
+<h3>Contact</h3>
+<a href="https://wa.me/8615502421365" style="color:white;font-weight:bold;">
+📱 WhatsApp Now
+</a>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 ISUZU PARTS SUPPLIER
+</div>
+
+<a class="wa-float" href="https://wa.me/8615502421365" target="_blank">💬</a>
 
 <script>
-    // ------------------- 默认数据 -------------------
-    const defaultParts = [
-        { partNo: "8-97234-350-0", enName: "Power Steering Oil Tank", cnName: "动力转向油罐", model: "D-MAX / 4JK1/4JJ1" },
-        { partNo: "8-97349-476-0", enName: "Power Steering Oil Cap", cnName: "动力转向油罐盖", model: "D-MAX/Rodeo" },
-        { partNo: "8-97946-130-1", enName: "Steering Gear Assembly", cnName: "转向机总成", model: "D-MAX 4x4" },
-        { partNo: "8-98273-325-0", enName: "Steering Column Assembly", cnName: "转向柱总成", model: "4JK1-TCS" },
-        { partNo: "8-98193-867-0", enName: "Radiator Grille", cnName: "散热器格栅", model: "D-MAX 2012+" },
-        { partNo: "8-98211-687-0", enName: "Grille Clip", cnName: "格栅卡扣", model: "通用" },
-        { partNo: "5-87810-421-0", enName: "Piston Ring Set", cnName: "发动机活塞环套件", model: "4JB1/4JA1" },
-        { partNo: "8-97946-137-0", enName: "Power Steering Hose (High Pressure)", cnName: "动力转向高压软管", model: "4JK1/4JJ1" }
-    ];
 
-    const STORAGE_KEY = "isuzu_parts_db";
-    let partsData = [];
-    let isAdminAuthenticated = false;  // 是否已通过密码验证
+const CSV_URL = "https://raw.githubusercontent.com/pro-excavator/isuzu-parts-data/main/parts.csv";
 
-    function loadData() {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            partsData = JSON.parse(stored);
-        } else {
-            partsData = JSON.parse(JSON.stringify(defaultParts));
-            saveData();
-        }
-        renderTable(partsData);
-        renderHotTags();
-    }
+let allData = [];
+let partsData = [];
+let currentPage = 1;
+const pageSize = 10;
 
-    function saveData() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(partsData));
-    }
+/* ✅ 关键：解决CSV逗号问题 */
+function parseCSV(row){
+    return row.split(/,(?=(?:(?:[^"]*\"){2})*[^"]*$)/);
+}
 
-    function renderTable(data) {
-        const tbody = document.getElementById('tableBody');
-        if (!data.length) {
-            tbody.innerHTML = '<tr><td colspan="5" class="no-result">No parts found. Add some via admin panel.</td></tr>';
-            return;
-        }
-        tbody.innerHTML = data.map((part, idx) => `
-            <tr>
-                <td class="part-number">${escapeHtml(part.partNo)}</td>
-                <td>${escapeHtml(part.enName)}</td>
-                <td>${escapeHtml(part.cnName)}</td>
-                <td>${escapeHtml(part.model)}</td>
-                <td>
-                    <button class="inquiry-btn" data-partno="${escapeHtml(part.partNo)}" data-name="${escapeHtml(part.enName)}"><i class="fab fa-whatsapp"></i> Inquiry</button>
-                    ${isAdminAuthenticated ? `<button class="edit-btn" data-index="${idx}" style="background:none; border:none; color:#2c6e9e; cursor:pointer; margin-left:8px;"><i class="fas fa-edit"></i></button>
-                    <button class="delete-btn" data-index="${idx}" style="background:none; border:none; color:#e74c3c; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>` : ''}
-                </td>
-            </tr>
-        `).join('');
+async function loadCSV(){
+    const res = await fetch(CSV_URL);
+    const text = await res.text();
 
-        // 询价按钮
-        document.querySelectorAll('.inquiry-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const partNo = btn.getAttribute('data-partno');
-                const name = btn.getAttribute('data-name');
-                const msg = `Hello, I'm interested in genuine Isuzu part: ${partNo} - ${name}. Please send best price.`;
-                window.open(`https://wa.me/8615502421365?text=${encodeURIComponent(msg)}`, '_blank');
-            });
-        });
-        if (isAdminAuthenticated) {
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = parseInt(btn.getAttribute('data-index'));
-                    openEditForm(idx);
-                });
-            });
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = parseInt(btn.getAttribute('data-index'));
-                    if (confirm('Delete this part?')) {
-                        partsData.splice(idx, 1);
-                        saveData();
-                        renderTable(partsData);
-                        renderHotTags();
-                    }
-                });
-            });
-        }
-    }
+    const rows = text.split("\n").slice(1);
 
-    function openEditForm(index) {
-        const part = partsData[index];
-        document.getElementById('addForm').style.display = 'none';
-        const editDiv = document.getElementById('editForm');
-        editDiv.style.display = 'block';
-        editDiv.innerHTML = `
-            <div class="form-group"><label>Part Number</label><input id="editPartNo" value="${escapeHtml(part.partNo)}"></div>
-            <div class="form-group"><label>English Name</label><input id="editEnName" value="${escapeHtml(part.enName)}"></div>
-            <div class="form-group"><label>中文名称</label><input id="editCnName" value="${escapeHtml(part.cnName)}"></div>
-            <div class="form-group"><label>Application</label><input id="editModel" value="${escapeHtml(part.model)}"></div>
-            <button class="btn-sm btn-success" id="saveEditBtn" data-index="${index}">保存修改</button>
-            <button class="btn-sm" id="cancelEditBtn2">取消</button>
-        `;
-        document.getElementById('saveEditBtn').addEventListener('click', () => {
-            partsData[index] = {
-                partNo: document.getElementById('editPartNo').value,
-                enName: document.getElementById('editEnName').value,
-                cnName: document.getElementById('editCnName').value,
-                model: document.getElementById('editModel').value
-            };
-            saveData();
-            renderTable(partsData);
-            renderHotTags();
-            closeEditForm();
-        });
-        document.getElementById('cancelEditBtn2').addEventListener('click', closeEditForm);
-        document.getElementById('cancelEditBtn').style.display = 'inline-block';
-    }
+    allData = rows.map(row=>{
+        const cols = parseCSV(row);
 
-    function closeEditForm() {
-        document.getElementById('editForm').style.display = 'none';
-        document.getElementById('addForm').style.display = 'block';
-        document.getElementById('cancelEditBtn').style.display = 'none';
-    }
-
-    function renderHotTags() {
-        const container = document.getElementById('hotTagsContainer');
-        if (!container) return;
-        const topParts = partsData.slice(0, 6);
-        container.innerHTML = topParts.map(p => `<span class="hot-tag" data-tag="${p.partNo}">🔍 ${p.partNo}</span>`).join('');
-        document.querySelectorAll('.hot-tag').forEach(tag => {
-            tag.addEventListener('click', () => {
-                document.getElementById('partSearchInput').value = tag.getAttribute('data-tag');
-                performSearch();
-            });
-        });
-    }
-
-    function performSearch() {
-        const query = document.getElementById('partSearchInput').value.trim().toUpperCase().replace(/[\s\-]/g, '');
-        if (!query) {
-            renderTable(partsData);
-            return;
-        }
-        const filtered = partsData.filter(p => p.partNo.toUpperCase().replace(/[\s\-]/g, '').includes(query));
-        renderTable(filtered);
-    }
-
-    function escapeHtml(str) { return String(str).replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
-    // 添加零件
-    function addPart() {
-        if (!isAdminAuthenticated) { alert("请先通过密码验证"); return; }
-        const partNo = document.getElementById('newPartNo').value.trim();
-        const enName = document.getElementById('newEnName').value.trim();
-        const cnName = document.getElementById('newCnName').value.trim();
-        const model = document.getElementById('newModel').value.trim();
-        if (!partNo || !enName || !cnName) {
-            alert("Please fill Part Number, English Name and Chinese Name");
-            return;
-        }
-        partsData.push({ partNo, enName, cnName, model: model || "通用" });
-        saveData();
-        renderTable(partsData);
-        renderHotTags();
-        document.getElementById('newPartNo').value = '';
-        document.getElementById('newEnName').value = '';
-        document.getElementById('newCnName').value = '';
-        document.getElementById('newModel').value = '';
-        closeEditForm();
-    }
-
-    // 导出CSV
-    function exportCSV() {
-        const headers = ['partNo', 'enName', 'cnName', 'model'];
-        const rows = partsData.map(p => [p.partNo, p.enName, p.cnName, p.model]);
-        const csvContent = [headers.join(','), ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))].join('\n');
-        const blob = new Blob(["\uFEFF" + csvContent], {type: "text/csv;charset=utf-8;"});
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.setAttribute("download", "isuzu_parts.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    }
-
-    // 导出JSON
-    function exportJSON() {
-        const dataStr = JSON.stringify(partsData, null, 2);
-        const blob = new Blob([dataStr], {type: "application/json"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "isuzu_parts.json";
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-
-    // 导入CSV或JSON
-    function importData(file) {
-        if (!isAdminAuthenticated) { alert("请先通过密码验证"); return; }
-        const fileType = file.name.split('.').pop().toLowerCase();
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                if (fileType === 'json') {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported)) {
-                        partsData = imported;
-                        saveData();
-                        renderTable(partsData);
-                        renderHotTags();
-                        alert("导入成功！");
-                    } else alert("JSON格式错误，需要数组");
-                } else if (fileType === 'csv') {
-                    const text = e.target.result;
-                    const lines = text.split(/\r?\n/).filter(l => l.trim());
-                    const headers = lines[0].split(',').map(h => h.replace(/["']/g, '').trim());
-                    const required = ['partNo', 'enName', 'cnName'];
-                    const missing = required.filter(r => !headers.includes(r));
-                    if (missing.length) throw new Error(`CSV缺少列: ${missing.join(', ')}`);
-                    const data = [];
-                    for (let i = 1; i < lines.length; i++) {
-                        const values = lines[i].split(',').map(v => v.replace(/^"|"$/g, '').trim());
-                        if (values.length < headers.length) continue;
-                        const obj = {};
-                        headers.forEach((h, idx) => { obj[h] = values[idx] || ''; });
-                        if (obj.partNo && obj.enName && obj.cnName) data.push(obj);
-                    }
-                    if (data.length === 0) throw new Error("没有有效数据行");
-                    partsData = data;
-                    saveData();
-                    renderTable(partsData);
-                    renderHotTags();
-                    alert(`成功导入 ${data.length} 条零件`);
-                } else throw new Error("不支持的文件类型");
-            } catch(err) {
-                alert("导入失败: " + err.message);
-            }
+        return {
+            oldPartNo: cols[0]?.trim(),
+            partNo: cols[1]?.trim(),
+            enName: cols[2]?.trim(),
+            weight: cols[5]?.trim()
         };
-        reader.readAsText(file, "UTF-8");
+    }).filter(p=>p.partNo);
+
+    partsData = allData;
+    renderTable();
+}
+
+function renderTable(){
+    const tbody = document.getElementById("tableBody");
+
+    const start = (currentPage-1)*pageSize;
+    const pageData = partsData.slice(start, start+pageSize);
+
+    tbody.innerHTML = pageData.map(p=>`
+        <tr>
+            <td>${p.partNo}</td>
+            <td>${p.enName}</td>
+            <td>${p.weight || '-'}</td>
+            <td>
+                <button class="btn" onclick="inquiry('${p.partNo}')">
+                    Inquiry
+                </button>
+            </td>
+        </tr>
+    `).join("");
+
+    document.getElementById("pageInfo").innerText =
+        `Page ${currentPage} / ${Math.ceil(partsData.length/pageSize)}`;
+}
+
+function nextPage(){
+    if(currentPage*pageSize < partsData.length){
+        currentPage++;
+        renderTable();
+    }
+}
+
+function searchParts(){
+    const q = document.getElementById("searchInput").value.trim();
+
+    if(!q){
+        partsData = allData;
+        currentPage = 1;
+        renderTable();
+        return;
     }
 
-    function resetToDefault() {
-        if (!isAdminAuthenticated) { alert("请先通过密码验证"); return; }
-        if (confirm("恢复默认数据将丢失所有当前添加的零件，确定吗？")) {
-            partsData = JSON.parse(JSON.stringify(defaultParts));
-            saveData();
-            renderTable(partsData);
-            renderHotTags();
-        }
-    }
+    partsData = allData.filter(p=>
+        (p.partNo && p.partNo.includes(q)) ||
+        (p.oldPartNo && p.oldPartNo.includes(q))
+    );
 
-    // 下载CSV模板
-    function downloadTemplate() {
-        const headers = ['partNo', 'enName', 'cnName', 'model'];
-        const example = [['8-97234-350-0', 'Power Steering Oil Tank', '动力转向油罐', 'D-MAX'], ['5-87810-421-0', 'Piston Ring Set', '活塞环套件', '4JB1']];
-        const rows = [headers, ...example];
-        const csvContent = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
-        const blob = new Blob(["\uFEFF" + csvContent], {type: "text/csv;charset=utf-8;"});
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = "isuzu_template.csv";
-        link.click();
-        URL.revokeObjectURL(url);
-    }
+    currentPage = 1;
+    renderTable();
+}
 
-    // 密码验证
-    function checkPassword() {
-        const inputPwd = document.getElementById('adminPassword').value;
-        if (inputPwd === "885336") {
-            isAdminAuthenticated = true;
-            document.getElementById('passwordModal').style.display = 'none';
-            // 刷新表格，显示编辑删除按钮
-            renderTable(partsData);
-            // 显示管理面板（如果之前隐藏）
-            document.getElementById('adminDrawer').classList.add('show');
-            alert("验证成功，您现在可以管理数据了。");
-        } else {
-            alert("密码错误！");
-        }
-    }
+function inquiry(partNo){
+    window.open(`https://wa.me/8615502421365?text=I need ${partNo}`);
+}
 
-    // 管理后台按钮点击处理
-    function onAdminToggle() {
-        if (!isAdminAuthenticated) {
-            // 显示密码模态框
-            document.getElementById('passwordModal').style.display = 'flex';
-        } else {
-            document.getElementById('adminDrawer').classList.toggle('show');
-        }
-    }
+loadCSV();
 
-    // 初始化事件
-    window.onload = () => {
-        loadData();
-        document.getElementById('searchBtn').addEventListener('click', performSearch);
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            document.getElementById('partSearchInput').value = '';
-            renderTable(partsData);
-        });
-        document.getElementById('addPartBtn').addEventListener('click', addPart);
-        document.getElementById('exportCsvBtn').addEventListener('click', exportCSV);
-        document.getElementById('exportJsonBtn').addEventListener('click', exportJSON);
-        document.getElementById('resetDefaultBtn').addEventListener('click', resetToDefault);
-        document.getElementById('importFileInput').addEventListener('change', (e) => {
-            if(e.target.files.length) importData(e.target.files[0]);
-            e.target.value = '';
-        });
-        document.getElementById('downloadTemplateBtn').addEventListener('click', downloadTemplate);
-        document.getElementById('adminToggleBtn').addEventListener('click', onAdminToggle);
-        document.getElementById('submitPasswordBtn').addEventListener('click', checkPassword);
-        document.getElementById('adminPassword').addEventListener('keypress', (e) => { if(e.key === 'Enter') checkPassword(); });
-        document.getElementById('cancelEditBtn').addEventListener('click', closeEditForm);
-        document.getElementById('partSearchInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') performSearch(); });
-    };
 </script>
+
 </body>
 </html>
